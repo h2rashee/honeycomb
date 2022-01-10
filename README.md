@@ -10,9 +10,11 @@ This program can be run by invoking
 
 To configure specific scenarios, edit `src/main.py` on L13 and add any specific elevator requests you have
 to watch the simulation take action and execute pick-ups/drop-offs.
+
 `L13:    req_queue.add_request(Request(1, 10, 10.0))`
 
 The Request object follows the signature:
+
 `Request(pickup_floor, dropoff_floor, request_timestamp)`
 
 Time is simulated in this challenge and we assume it takes the elevator one second to travel a floor and that
@@ -28,6 +30,9 @@ to de-scope the problem (via a synchronous conversation).
 
 
 # What, if anything, would you change if you had more time to spend on it?
+I would first parameterize the amount of levels in the building and create a better input mechanism to handle
+elevator requests.
+
 I would refactor the ElevatorSystem's complexity so it has better readability and maintainability for the next
 developer.
 
