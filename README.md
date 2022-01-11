@@ -4,7 +4,7 @@ This repository is set-up to address the Elevator Control System Challenge.
 https://docs.google.com/document/d/1TSjMN-q9bAfzptFBlvqBSRbODVSvUyJ--RN1XIUmyFM/edit#heading=h.9cms0o4oc22w
 
 # Execution
-This program can be run by invoking
+This program can be run by invoking:
 
 `make run`
 
@@ -21,6 +21,11 @@ Time is simulated in this challenge and we assume it takes the elevator one seco
 pickups and dropoffs are instantaneous (no delay).
 
 The height of the elevator shaft (levels) is also modifiable in `main.py` as a constant.
+
+# Running tests
+Unit tests can be executed by running:
+
+`make test`
 
 
 # How long did you spend on this?
@@ -61,11 +66,34 @@ In reality, a request queue would not be needed and would be managed internally 
 ## Algorithm
 
 We use a traditional algorithm for the elevator's journey by going to both ends of the elevator shaft to find
-any requests for trips going in the same direction before moving in the other direction.
+any requests for trips going in the same direction before moving in the other direction. In the event that opposite
+direction requests come at the same time for an idle elevator, the request going up is served first (no semantic
+drive behind that decision).
 
 There are numerous other solutions that can be power-saving (electricity) and that involves graphs to find
 the shortest path between requests or even first-come-first-serve (FCFS) but I picked the approach that is
 most often seen in the wild.
+
+# Data Structures
+
+We take a bit of an unorthodox approach here to track elevator pick-ups and drop-offs by utilizing four hashtables
+`trips_up`,`trips_down` and `trips_up_requests`,`trips_down_requests`.
+
+We utilize `trips_up` and `trips_down` to denote pick-ups and drop-offs on a specific floor in the up and down direction
+respectively. This differentiation is needed because we only pick-up people in the same direction as the one the elevator
+is heading. We don't track the number of people that are being picked-up/dropped off on a particular floor or the capacity
+of the elevator. We simply denote whether a stop needs to be made on that floor for a trip heading up or down by using
+a 1 or 0 (a rough boolean representation).
+
+When a request is received, we mark the stop and the direction of the stop (READ: pick-up) appropriately. Since we can only
+perform drop-offs after the respective pick-up, we track this using the parallel hashtables `trips_up_requests` and
+`trips_down_requests`. We store a list of Request objects on the index of the respective pick-up floor. When a pick-up in
+the direction is performed, we take any Request objects for that floor and add the drop-off stops to `trips_up` and
+`trips_down` and clear the list of Request objects (for that direction). This repeats until there are no requests left to
+process and the stream (RequestQueue) has ended.
+
+This solution does not extend well when scaling to multiple elevators. This was a decision made to trade-off limited time
+to work on this problem.
 
 # Extending the solution
 Things this solution can be extended to and doesn't current handle:
