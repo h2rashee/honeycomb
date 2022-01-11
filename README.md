@@ -74,7 +74,7 @@ There are numerous other solutions that can be power-saving (electricity) and th
 the shortest path between requests or even first-come-first-serve (FCFS) but I picked the approach that is
 most often seen in the wild.
 
-# Data Structures
+## Data Structures
 
 We take a bit of an unorthodox approach here to track elevator pick-ups and drop-offs by utilizing four hashtables
 `trips_up`,`trips_down` and `trips_up_requests`,`trips_down_requests`.
