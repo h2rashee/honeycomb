@@ -1,0 +1,11 @@
+Test Plan:
+
+- No requests in the queue
+- A single request in the queue
+- An invalid request in the queue
+- A request going up and a request going down
+- Multiple requests going up and down (some consecutive)
+- Requests such that there is a same floor pick-up and drop-off
+- Top and bottom floor pick-up
+- Passing a floor where there is a trip in the opposite direction (ignore it)
+- Passing a floor where there is a trip in the same direction (stop)
